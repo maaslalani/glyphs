@@ -1,6 +1,6 @@
 # Glyphs
 
-Unicode symbols on the command line. Based on [tr.af/glyphs](https://tr.af/glyphs/)
+Unicode symbols on the command line. Based on [tr.af/glyphs](https://tr.af/glyphs/), built using [`huh?`](https://github.com/charmbracelet/huh)
 
 <p align="center">
 <img width="800" alt="image" src="https://github.com/maaslalani/glyphs/assets/42545625/9692cd5b-4b86-40d0-b02a-ae7a2ee4e5f7">
@@ -9,8 +9,6 @@ Unicode symbols on the command line. Based on [tr.af/glyphs](https://tr.af/glyph
 ```bash
 glyphs
 ```
-
-Built using [`huh?`](https://github.com/charmbracelet/huh)
 
 Install with Go:
 

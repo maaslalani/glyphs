@@ -38,15 +38,16 @@ func main() {
 	}
 
 	theme := huh.ThemeCharm()
-	theme.Focused.Base.Border(lipgloss.Border{})
+	theme.Focused.Base.Border(lipgloss.HiddenBorder())
 
 	huh.NewForm(
 		huh.NewGroup(
 			huh.NewSelect[Glyph]().
-				Title("Glyphs").
+				Title("Glyphs\n").
 				Options(glyphOptions...).
 				Value(&selected).
 				Height(20),
+			huh.NewNote(),
 		),
 	).WithTheme(theme).Run()
 

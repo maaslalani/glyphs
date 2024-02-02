@@ -21,7 +21,10 @@ type Glyph struct {
 	Name string `json:"name"`
 }
 
-const iconWidth = 4
+const iconWidth = 3
+
+var iconStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("255")).MarginLeft(1)
+var nameStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("243"))
 
 func main() {
 	var glyphs []Glyph
@@ -31,9 +34,7 @@ func main() {
 	var glyphOptions = make([]huh.Option[Glyph], len(glyphs))
 
 	for i, g := range glyphs {
-		icon := g.Icon
-		iconWidth := uniseg.StringWidth(icon)
-		title := g.Icon + strings.Repeat(" ", 4-iconWidth) + g.Name
+		title := iconStyle.Render(g.Icon) + strings.Repeat(" ", iconWidth-uniseg.StringWidth(g.Icon)) + nameStyle.Render(g.Name)
 		glyphOptions[i] = huh.NewOption(title, g)
 	}
 
@@ -43,7 +44,8 @@ func main() {
 	huh.NewForm(
 		huh.NewGroup(
 			huh.NewSelect[Glyph]().
-				Title("Glyphs\n").
+				Title("Glyphs").
+				Description(" ").
 				Options(glyphOptions...).
 				Value(&selected).
 				Height(20),

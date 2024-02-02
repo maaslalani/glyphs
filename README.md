@@ -2,6 +2,10 @@
 
 Unicode symbols on the command line. Based on [tr.af/glyphs](https://tr.af/glyphs/)
 
+<p align="center">
+<img width="800" alt="image" src="https://github.com/maaslalani/glyphs/assets/42545625/9692cd5b-4b86-40d0-b02a-ae7a2ee4e5f7">
+</p>
+
 ```bash
 glyphs
 ```

@@ -80,6 +80,14 @@
     "icon": "↻"
   },
   {
+    "name": "Bullet Filled",
+    "icon": "•"
+  },
+  {
+    "name": "Bullet Empty",
+    "icon": "◦"
+  },
+  {
     "name": "Star Filled",
     "icon": "★"
   },

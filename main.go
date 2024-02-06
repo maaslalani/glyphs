@@ -31,7 +31,7 @@ func main() {
 	var glyphOptions = make([]huh.Option[Glyph], len(glyphs))
 
 	for i, g := range glyphs {
-		title := g.Icon + strings.Repeat(" ", iconWidth-uniseg.StringWidth(g.Icon)) + g.Name
+		title := " " + g.Icon + strings.Repeat(" ", iconWidth-uniseg.StringWidth(g.Icon)) + g.Name
 		glyphOptions[i] = huh.NewOption(title, g)
 	}
 

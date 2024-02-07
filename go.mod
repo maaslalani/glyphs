@@ -1,6 +1,6 @@
 module github.com/maaslalani/glyphs
 
-go 1.21.6
+go 1.21
 
 require (
 	github.com/charmbracelet/huh v0.3.0

@@ -7,9 +7,9 @@ import (
 
 	_ "embed"
 
-	"github.com/atotto/clipboard"
 	"github.com/charmbracelet/huh"
 	"github.com/charmbracelet/lipgloss"
+	"github.com/muesli/termenv"
 	"github.com/rivo/uniseg"
 )
 
@@ -27,8 +27,8 @@ func main() {
 	var glyphs []Glyph
 	var selected Glyph
 
-	json.Unmarshal(glyphsJSON, &glyphs)
-	var glyphOptions = make([]huh.Option[Glyph], len(glyphs))
+	_ = json.Unmarshal(glyphsJSON, &glyphs)
+	glyphOptions := make([]huh.Option[Glyph], len(glyphs))
 
 	for i, g := range glyphs {
 		title := " " + g.Icon + strings.Repeat(" ", iconWidth-uniseg.StringWidth(g.Icon)) + g.Name
@@ -38,7 +38,7 @@ func main() {
 	theme := huh.ThemeCharm()
 	theme.Focused.Base.Border(lipgloss.HiddenBorder())
 
-	huh.NewForm(
+	_ = huh.NewForm(
 		huh.NewGroup(
 			huh.NewSelect[Glyph]().
 				Title("Glyphs").
@@ -50,6 +50,6 @@ func main() {
 		),
 	).WithTheme(theme).Run()
 
-	clipboard.WriteAll(selected.Icon)
+	termenv.Copy(selected.Icon)
 	fmt.Println(selected.Icon)
 }

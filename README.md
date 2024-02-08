@@ -2,9 +2,11 @@
 
 Unicode symbols on the command line. Based on [tr.af/glyphs](https://tr.af/glyphs/), built using [`huh?`](https://github.com/charmbracelet/huh)
 
+<br />
 <p align="center">
-<img width="800" alt="image" src="https://github.com/maaslalani/glyphs/assets/42545625/9692cd5b-4b86-40d0-b02a-ae7a2ee4e5f7">
+<img width="800" alt="image" src="https://github.com/maaslalani/glyphs/assets/42545625/ef2ce081-1a9c-42d3-8130-6bc8fa960aeb">
 </p>
+<br />
 
 ```bash
 glyphs

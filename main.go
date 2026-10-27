@@ -3,14 +3,15 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 	"strings"
 
 	_ "embed"
 
-	"github.com/charmbracelet/huh"
-	"github.com/charmbracelet/lipgloss"
+	tea "charm.land/bubbletea/v2"
+	"charm.land/huh/v2"
+	"charm.land/lipgloss/v2"
 	"github.com/muesli/termenv"
-	"github.com/rivo/uniseg"
 )
 
 //go:embed glyphs.json
@@ -21,35 +22,63 @@ type Glyph struct {
 	Name string `json:"name"`
 }
 
-const iconWidth = 3
+const (
+	iconWidth  = 3
+	listHeight = 20
+)
 
 func main() {
-	var glyphs []Glyph
 	var selected Glyph
+
+	if err := newForm(&selected).Run(); err != nil {
+		return
+	}
+
+	termenv.Copy(selected.Icon)
+	fmt.Println(selected.Icon)
+}
+
+func newForm(selected *Glyph) *huh.Form {
+	var glyphs []Glyph
 
 	_ = json.Unmarshal(glyphsJSON, &glyphs)
 	glyphOptions := make([]huh.Option[Glyph], len(glyphs))
 
 	for i, g := range glyphs {
-		title := " " + g.Icon + strings.Repeat(" ", iconWidth-uniseg.StringWidth(g.Icon)) + g.Name
+		title := " " + g.Icon + strings.Repeat(" ", iconWidth-lipgloss.Width(g.Icon)) + g.Name
 		glyphOptions[i] = huh.NewOption(title, g)
 	}
 
-	theme := huh.ThemeCharm()
-	theme.Focused.Base.Border(lipgloss.HiddenBorder())
+	theme := huh.ThemeFunc(func(isDark bool) *huh.Styles {
+		theme := huh.ThemeCharm(isDark)
+		theme.Focused.Base = theme.Focused.Base.Border(lipgloss.HiddenBorder())
+		return theme
+	})
 
-	_ = huh.NewForm(
+	form := huh.NewForm(
 		huh.NewGroup(
 			huh.NewSelect[Glyph]().
 				Title("Glyphs").
 				Description(" ").
 				Options(glyphOptions...).
-				Value(&selected).
-				Height(20),
-			huh.NewNote(),
+				Value(selected).
+				Height(listHeight),
 		),
-	).WithTheme(theme).Run()
+	).WithTheme(theme)
 
-	termenv.Copy(selected.Icon)
-	fmt.Println(selected.Icon)
+	return form.WithProgramOptions(
+		tea.WithOutput(os.Stderr),
+		tea.WithFilter(func(_ tea.Model, msg tea.Msg) tea.Msg {
+			if size, ok := msg.(tea.WindowSizeMsg); ok {
+				resizeForm(form, size.Height)
+			}
+			return msg
+		}),
+	)
+}
+
+func resizeForm(form *huh.Form, height int) {
+	height = min(listHeight, max(3, height-4))
+	form.GetFocusedField().WithHeight(height)
+	form.WithHeight(height + 3)
 }
